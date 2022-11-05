@@ -53,6 +53,20 @@
     margin-bottom: 10px;
     overflow: hidden;
     height: 75px;
+    user-select: none;
+    transition: background-color .3s ease;
+    
+    &:hover {
+        background-color: lighten($color: $primary, $amount: 30);
+    }
+    
+    &:active {
+        background-color: lighten($color: $primary, $amount: 10);
+
+        & .journal__entry-title {
+            transform: scale(1.1);
+        }
+    }
 
     &-picture {
         width: 200px;
@@ -61,6 +75,7 @@
         padding: 10px;
     }
     &-title {
+        transition: transform .1s ease;
         font-size: 1rem;
         font-weight: bold;
     }
