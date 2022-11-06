@@ -1,10 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { login, startLoginEmailPass } from '../../actions/auth'
+import { useForm } from '../../hooks/useForm'
 
 const LoginScreen = () => {
 
+  const dispatch = useDispatch();
+
+  const [values, handleChange] = useForm({
+    email: 'luisguillermo.rodriguez32@gmail.com',
+    password: ''
+  })
+
+  const {email, password} = values;
+
+  const [uiState, setuiState] = useState({
+    loading: false,
+    errorMsg: null
+  })
+
+  const {loading, errorMsg} = uiState
+
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setuiState({...uiState, loading:true})
+    dispatch(startLoginEmailPass(email, password));
+    setuiState({...uiState, loading:false})
   }
 
   return (
@@ -13,23 +35,26 @@ const LoginScreen = () => {
 
       <form onSubmit={handleSubmit}>
         <input
-        type={'email'}
+        type="email"
         placeholder="Email"
         name='email'
         className='auth__input'
-        autoComplete='off'
+        value={email}
+        onChange={handleChange}
         />
         <input
         type={'password'}
         placeholder="Password"
         name='password'
         className='auth__input'
+        value={password}
+        onChange={handleChange}
         />
 
         <button 
         className='btn btn-primary btn-block'
         type={'submit'}
-        // disabled={true}
+        disabled={loading}
         >
           Login
         </button>
